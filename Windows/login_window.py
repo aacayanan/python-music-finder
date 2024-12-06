@@ -1,6 +1,7 @@
 from window_base import BaseWindow
 import tkinter as tk
 
+
 class LoginWindow(BaseWindow):
     def __init__(self):
         super().__init__()
@@ -37,5 +38,5 @@ class LoginWindow(BaseWindow):
         create_acct_button.pack(side="right", fill="x", padx=5)
         buttons_frame.pack(pady=10)
 
-        # add main frame and show login window
+        # add to main frame
         main_frame.pack(expand=True)
