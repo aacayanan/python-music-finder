@@ -57,4 +57,3 @@ class SelectionWindow(BaseWindow):
         param_frame.pack()
         button_frame.pack()
         main_frame.pack(expand=True)
-

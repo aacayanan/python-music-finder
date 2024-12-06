@@ -18,3 +18,6 @@ class BaseWindow:
 
     def show(self):
         self.root.mainloop()
+
+    def close(self):
+        self.root.destroy()
