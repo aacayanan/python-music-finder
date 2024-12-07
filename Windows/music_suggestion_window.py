@@ -25,7 +25,7 @@ class MusicSuggestionPage(BaseWindow):
 
         # content frame
         content_frame = tk.Frame(main_frame)
-        content_label = tk.Label(content_frame, text=self.generate_suggestions(), font=("Helvetica", 12))
+        content_label = tk.Label(content_frame, text=self.generate_suggestions(), font=("Helvetica", 10))
         content_label.pack()
 
         # add to main frame
@@ -49,4 +49,5 @@ class MusicSuggestionPage(BaseWindow):
                 {"role": "user", "content": str(self.name_list)}
             ]
         )
+        print(str(self.name_list))
         return response.choices[0].message.content

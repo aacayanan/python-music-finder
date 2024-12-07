@@ -1,4 +1,4 @@
-from Windows.music_suggestion_page import MusicSuggestionPage
+from Windows.music_suggestion_window import MusicSuggestionPage
 from window_base import BaseWindow
 import tkinter as tk
 from tkinter import ttk, messagebox
@@ -104,8 +104,3 @@ class SelectionWindow(BaseWindow):
         else:
             self.gen_selected_list.append(self.gen_combobox.get())
             self.selections_label.config(text=", ".join(self.gen_selected_list))
-
-
-if __name__ == '__main__':
-    selection_window = SelectionWindow()
-    selection_window.show()
