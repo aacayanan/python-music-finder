@@ -7,6 +7,7 @@ import pandas as pd
 class SelectionWindow(BaseWindow):
     def __init__(self):
         super().__init__()
+        self.gen_combobox = None
         self.data = self.create_dataset()
         self.setup_components()
 
@@ -36,24 +37,37 @@ class SelectionWindow(BaseWindow):
         gen_frame = tk.Frame(param_frame)
         gen_label = tk.Label(gen_frame, text="Genre:")
         gen_label.pack(side=tk.LEFT)
-        gen_combobox = ttk.Combobox(gen_frame, values=sorted(list(self.data['genre'].unique())))
-        gen_combobox.pack(side=tk.RIGHT)
+        self.gen_combobox = ttk.Combobox(gen_frame, values=sorted(list(self.data['genre'].unique())))
+        self.gen_combobox.pack(side=tk.RIGHT)
         gen_frame.pack(side=tk.LEFT)
 
-        # year panel
-        yr_frame = tk.Frame(param_frame)
-        yr_label = tk.Label(yr_frame, text="Year:")
-        yr_label.pack(side=tk.LEFT)
-        yr_combobox = ttk.Combobox(yr_frame, values=sorted(list(self.data['year'].unique())))
-        yr_combobox.pack(side=tk.RIGHT)
-        yr_frame.pack(side=tk.RIGHT)
+        # # year panel
+        # yr_frame = tk.Frame(param_frame)
+        # yr_label = tk.Label(yr_frame, text="Year:")
+        # yr_label.pack(side=tk.LEFT)
+        # yr_combobox = ttk.Combobox(yr_frame, values=sorted(list(self.data['year'].unique())))
+        # yr_combobox.pack(side=tk.RIGHT)
+        # yr_frame.pack(side=tk.RIGHT)
 
         # button panel
         button_frame = tk.Frame(main_frame)
-        submit_button = tk.Button(button_frame, text="Submit")
+        submit_button = tk.Button(button_frame, text="Submit", command=self.on_submit_click)
         submit_button.pack()
 
         # add to main frame
         param_frame.pack()
         button_frame.pack()
         main_frame.pack(expand=True)
+
+    def on_submit_click(self):
+        selected_genre = self.gen_combobox.get()
+        genre_idx_matches_list = (self.data['genre'] == selected_genre).tolist()
+        genre_idx_matches = [i for i, x in enumerate(genre_idx_matches_list) if x == True]
+        print(self.data['art_name'][genre_idx_matches].tolist())
+
+
+
+
+if __name__ == '__main__':
+    selection_window = SelectionWindow()
+    selection_window.show()
