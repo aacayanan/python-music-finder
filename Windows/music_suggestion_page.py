@@ -9,7 +9,7 @@ class MusicSuggestionPage(BaseWindow):
         super().__init__()
         self.name_list = name_list
         self.setup_components()
-        self.generate_suggestions()
+        # self.generate_suggestions()
 
     def setup_components(self):
         # main frame
@@ -18,10 +18,12 @@ class MusicSuggestionPage(BaseWindow):
         main_frame.grid_rowconfigure(0, weight=1)
         main_frame.grid_columnconfigure(0, weight=1)
 
+
+
     def generate_suggestions(self):
         # get api key from .env
-        dotenv_path = find_dotenv()
-        load_dotenv(dotenv_path)
+        # dotenv_path = find_dotenv()
+        # load_dotenv(dotenv_path)
         # OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 
         client = OpenAI()
@@ -29,8 +31,9 @@ class MusicSuggestionPage(BaseWindow):
         response = client.chat.completions.create(
             model="gpt-3.5-turbo",
             messages=[
-                {"role": "system", "content": "Given the following list of names, generate 10 song suggestions."},
-                {"role": "user", "content": "[Bruno Mars, Jeff Buckley]"}
+                {"role": "system", "content": "Given the following list of names, generate 10 song suggestions in"
+                                              "the form, \"Song\" by Artist."},
+                {"role": "user", "content": str(self.name_list)}
             ]
         )
 
