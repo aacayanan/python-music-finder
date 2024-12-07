@@ -1,3 +1,4 @@
+from Windows.music_suggestion_page import MusicSuggestionPage
 from window_base import BaseWindow
 import tkinter as tk
 from tkinter import ttk
@@ -63,7 +64,9 @@ class SelectionWindow(BaseWindow):
         selected_genre = self.gen_combobox.get()
         genre_idx_matches_list = (self.data['genre'] == selected_genre).tolist()
         genre_idx_matches = [i for i, x in enumerate(genre_idx_matches_list) if x == True]
-        print(self.data['art_name'][genre_idx_matches].tolist())
+        self.close()
+        suggestion_window = MusicSuggestionPage(self.data['art_name'][genre_idx_matches].tolist())
+        suggestion_window.show()
 
 
 
