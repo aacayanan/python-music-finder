@@ -32,7 +32,7 @@ class LoginWindow(BaseWindow):
         password_frame = tk.Frame(main_frame)
         password_label = tk.Label(password_frame, text="Password:")
         password_label.pack(side="left", fill="x", pady=5)
-        self.password_entry = tk.Entry(password_frame)
+        self.password_entry = tk.Entry(password_frame, show="*")
         self.password_entry.pack(side="right", fill="x", pady=5)
         password_frame.pack(pady=10)
 

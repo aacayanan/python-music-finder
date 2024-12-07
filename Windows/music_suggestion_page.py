@@ -4,6 +4,7 @@ from openai import OpenAI
 import os
 from dotenv import find_dotenv, load_dotenv
 
+
 class MusicSuggestionPage(BaseWindow):
     def __init__(self, name_list):
         super().__init__()
@@ -18,12 +19,24 @@ class MusicSuggestionPage(BaseWindow):
         main_frame.grid_rowconfigure(0, weight=1)
         main_frame.grid_columnconfigure(0, weight=1)
 
+        # title frame
+        title_label = tk.Label(main_frame, text="Here are your personalized suggestions", font=("Helvetica", 16))
+        title_label.pack(pady=10)
 
+        # content frame
+        content_frame = tk.Frame(main_frame)
+        content_label = tk.Label(content_frame, text=self.generate_suggestions(), font=("Helvetica", 12))
+        content_label.pack()
+
+        # add to main frame
+        title_label.pack()
+        content_frame.pack()
+        main_frame.pack()
 
     def generate_suggestions(self):
         # get api key from .env
-        # dotenv_path = find_dotenv()
-        # load_dotenv(dotenv_path)
+        dotenv_path = find_dotenv()
+        load_dotenv(dotenv_path)
         # OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 
         client = OpenAI()
@@ -36,5 +49,4 @@ class MusicSuggestionPage(BaseWindow):
                 {"role": "user", "content": str(self.name_list)}
             ]
         )
-
-        print(response.choices[0].message.content)
+        return response.choices[0].message.content
