@@ -12,10 +12,11 @@ class SelectionWindow(BaseWindow):
         self.gen_combobox = None
         self.gen_selected_list = []
         self.data = self.create_dataset()
+        self.on_enter_keypress()
         self.setup_components()
 
     def create_dataset(self):
-        file = r"C:\Users\aacay\Documents\Code\MusicFinderApp\music_data.csv"
+        file = "music_data.csv"
         df = pd.read_csv(file)
         dataset = {
             'genre': df['Genres'].str.split(',', n=1).str[0],
@@ -85,6 +86,8 @@ class SelectionWindow(BaseWindow):
             for genre in self.gen_selected_list:
                 genre_idx_matches_list = (self.data['genre'] == genre).tolist()
                 genre_idx_matches = [i for i, x in enumerate(genre_idx_matches_list) if x == True]
+                if len(genre_idx_matches) == 0:
+                    names_list.append(genre)
                 for genre_idx in genre_idx_matches:
                     names_list.append(self.data['art_name'][genre_idx])
             self.close()
@@ -92,6 +95,9 @@ class SelectionWindow(BaseWindow):
             suggestion_window.show()
         else:
             messagebox.showerror("Error", "You did not enter any genres.")
+
+    def on_enter_keypress(self):
+        self.root.bind("<Return>", lambda event: self.on_add_click())
 
     def on_add_click(self):
         # add selected genre to
@@ -101,6 +107,12 @@ class SelectionWindow(BaseWindow):
             messagebox.showerror("Error", "You've entered too many genres.")
         elif self.gen_combobox.get() in self.gen_selected_list:
             messagebox.showerror("Error", "You already entered that genre.")
+        elif self.gen_combobox.get() not in self.data['genre'].tolist():
+            messagebox.showwarning("Warning", "Entering a genre not in the list will result in"
+                                              " unexpected behavior, often being ignored")
+            self.gen_selected_list.append(self.gen_combobox.get())
+            self.selections_label.config(text=", ".join(self.gen_selected_list))
         else:
             self.gen_selected_list.append(self.gen_combobox.get())
             self.selections_label.config(text=", ".join(self.gen_selected_list))
+

@@ -1,5 +1,7 @@
 import csv
 import os
+from tkinter import messagebox
+
 from window_base import BaseWindow
 import tkinter as tk
 
@@ -9,6 +11,7 @@ class CreateAccountWindow(BaseWindow):
         super().__init__()
         self.username_entry = None
         self.password_entry = None
+        self.on_enter_keypress()
         self.setup_components()
 
     def setup_components(self):
@@ -49,7 +52,7 @@ class CreateAccountWindow(BaseWindow):
         account = [[username, password]]
 
         # append data to csv, if not found create a new csv
-        file_name = '../accounts.csv'
+        file_name = './accounts.csv'
         file_exists = os.path.exists(file_name)
 
         with open(file_name, 'a', newline='') as csv_file:
@@ -58,5 +61,8 @@ class CreateAccountWindow(BaseWindow):
             if not file_exists:
                 writer.writerow(['username', 'password'])
             writer.writerows(account)
-
+        messagebox.showinfo("Account Created", "Account Created. Please Restart Program.")
         self.close()
+
+    def on_enter_keypress(self):
+        self.root.bind("<Return>", lambda event: self.create_account_click())

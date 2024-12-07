@@ -11,9 +11,11 @@ from pandas import read_csv
 class LoginWindow(BaseWindow):
     def __init__(self):
         super().__init__()
+        self.accounts = None
         self.password_entry = None
         self.username_entry = None
-        self.accounts = read_csv('../accounts.csv')
+        self.account_check()
+        self.on_enter_keypress()
         self.setup_components()
 
     def setup_components(self):
@@ -52,7 +54,7 @@ class LoginWindow(BaseWindow):
 
     def on_login_click(self):
         # check if there is a csv file
-        if not os.path.exists('../accounts.csv'):
+        if not os.path.exists('./accounts.csv'):
             messagebox.showinfo("Error", "No accounts found. Please create one.")
             return 0
 
@@ -73,6 +75,21 @@ class LoginWindow(BaseWindow):
             self.password_entry.delete(0, tk.END)
         return 1
 
+    def account_check(self):
+        # locate accounts csv file, if it does not exist create one
+        file_name = './accounts.csv'
+        file_exists = os.path.exists(file_name)
+        with open(file_name, 'a', newline='') as csv_file:
+            writer = csv.writer(csv_file)
+
+            if not file_exists:
+                writer.writerow(['username', 'password'])
+        self.accounts = read_csv('./accounts.csv')
+
     def on_create_account_click(self):
+        self.close()
         create_account = CreateAccountWindow()
         create_account.show()
+
+    def on_enter_keypress(self):
+        self.root.bind("<Return>", lambda event: self.on_login_click())

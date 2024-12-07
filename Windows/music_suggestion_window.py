@@ -44,10 +44,9 @@ class MusicSuggestionPage(BaseWindow):
         response = client.chat.completions.create(
             model="gpt-3.5-turbo",
             messages=[
-                {"role": "system", "content": "Given the following list of names, generate 10 song suggestions in"
-                                              "the form, \"Song\" by Artist."},
+                {"role": "system", "content": "Given the following list of artist names, generate 10 song suggestions "
+                                              "of the artist(s) in the form, \"Song\" by Artist."},
                 {"role": "user", "content": str(self.name_list)}
             ]
         )
-        print(str(self.name_list))
         return response.choices[0].message.content
